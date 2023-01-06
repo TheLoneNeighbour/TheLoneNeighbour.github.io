@@ -311,3 +311,47 @@ footer a:hover {
   }
 }
 
+/* Color variables */
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2c3e50;
+  --light-color: #fff;
+  --dark-color: #333;
+  }
+  
+  /* Comment form */
+  form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 50%;
+  margin-bottom: 20px;
+  font-family: Arial, sans-serif;
+  background-color: var(--light-color);
+  border-radius: 5px;
+  }
+  
+  label {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+  padding: 10px;
+  }
+  
+  textarea {
+  font-size: 1em;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;
+  }
+  
+  button {
+  font-size: 1em;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  color: var(--light-color);
+  cursor: pointer;
+  transition: all 0.3s;
+  }
