@@ -1,4 +1,5 @@
-const cheesePerClick = 1;
+const cheesePerClickBase = 1;
+let cheesePerClick = cheesePerClickBase;
 let cheeseCount = 0;
 let cheesePerSecond = 0;
 let pasteurizationLevel = 0;
@@ -7,161 +8,222 @@ let helpers = 0;
 const pasteurizationBasePrice = 100;
 const agingBasePrice = 200;
 const apprenticeBasePrice = 500;
+const clickUpgradeBasePrice = 1000;
 let pasteurizationPrice = pasteurizationBasePrice;
 let agingPrice = agingBasePrice;
 let apprenticePrice = apprenticeBasePrice;
+let clickUpgradePrice = clickUpgradeBasePrice;
 
 const makeCheeseButton = document.getElementById("make-cheese-button");
-const pasteurizationButton = document.getElementById("pasteurization-button");
-const agingButton = document.getElementById("aging-button");
-const apprenticeButton = document.getElementById("apprentice-button");
-const saveGameButton = document.getElementById("save-game-button");
-const loadGameButton = document.getElementById("load-game-button");
-const resetGameButton = document.getElementById("reset-game-button");
-const pasteurizationLevelElement = document.getElementById("pasteurization-level");
-const pasteurizationPriceElement = document.getElementById("pasteurization-price");
-const agingLevelElement = document.getElementById("aging-level");
-const agingPriceElement = document.getElementById("aging-price");
-const apprenticesElement = document.getElementById("apprentices");
-const apprenticePriceElement = document.getElementById("apprentice-price");
-const cheeseCountElement = document.getElementById("cheese-count");
-const cheesePerSecondElement = document.getElementById("cheese-per-second");
-
-makeCheeseButton.addEventListener("click", () => {
+makeCheeseButton.addEventListener("click", function () {
   cheeseCount += cheesePerClick;
   updateCheeseCount();
 });
 
-pasteurizationButton.addEventListener("click", () => {
+const pasteurizationButton = document.getElementById("pasteurization-button");
+pasteurizationButton.addEventListener("click", function () {
   if (cheeseCount >= pasteurizationPrice) {
     cheeseCount -= pasteurizationPrice;
-    pasteurizationLevel += 1;
-    pasteurizationPrice = Math.ceil(pasteurizationPrice * 1.1);
-    updatePasteurization();
+    pasteurizationLevel++;
+    pasteurizationPrice *= 1.1;
+    cheesePerSecond += 1;
     updateCheeseCount();
+    updatePasteurization();
   }
 });
 
-agingButton.addEventListener("click", () => {
+const agingButton = document.getElementById("aging-button");
+agingButton.addEventListener("click", function () {
   if (cheeseCount >= agingPrice) {
     cheeseCount -= agingPrice;
-    agingLevel += 1;
-    agingPrice = Math.ceil(agingPrice * 1.1);
-    updateAging();
+    agingLevel++;
+    agingPrice *= 1.1;
+    cheesePerSecond += 2;
     updateCheeseCount();
+    updateAging();
   }
 });
 
-apprenticeButton.addEventListener("click", () => {
+const apprenticeButton = document.getElementById("apprentice-button");
+apprenticeButton.addEventListener("click", function () {
   if (cheeseCount >= apprenticePrice) {
     cheeseCount -= apprenticePrice;
-    helpers += 1;
-    apprenticePrice = Math.ceil(apprenticePrice * 1.1);
-    updateHelpers();
+    helpers++;
+    apprenticePrice *= 1.1;
+    cheesePerSecond += 5;
     updateCheeseCount();
+    updateApprentices();
   }
 });
 
-saveGameButton.addEventListener("click", () => {
+const clickUpgradeButton = document.getElementById("click-upgrade-button");
+clickUpgradeButton.addEventListener("click", function () {
+  if (cheeseCount >= clickUpgradePrice) {
+    cheeseCount -= clickUpgradePrice;
+    cheesePerClick++;
+    clickUpgradePrice *= 1.1;
+    updateCheeseCount();
+    updateClickUpgrade();
+  }
+});
+
+const saveGameButton = document.getElementById("save-game-button");
+saveGameButton.addEventListener("click", function () {
   localStorage.setItem("cheeseCount", cheeseCount);
   localStorage.setItem("pasteurizationLevel", pasteurizationLevel);
-  localStorage.setItem("pasteurizationPrice", pasteurizationPrice);
   localStorage.setItem("agingLevel", agingLevel);
-  localStorage.setItem("agingPrice", agingPrice);
   localStorage.setItem("helpers", helpers);
+  localStorage.setItem("pasteurizationPrice", pasteurizationPrice);
+  localStorage.setItem("agingPrice", agingPrice);
   localStorage.setItem("apprenticePrice", apprenticePrice);
-  alert("Game saved successfully!");
+  localStorage.setItem("clickUpgradePrice", clickUpgradePrice);
+  localStorage.setItem("clickUpgradeLevel", cheesePerClick);
 });
 
-loadGameButton.addEventListener("click", () => {
-  cheeseCount = Number(localStorage.getItem("cheeseCount"));
-  pasteurizationLevel = Number(localStorage.getItem("pasteurizationLevel"));
-  pasteurizationPrice = Number(localStorage.getItem("pasteurizationPrice"));
-  agingLevel = Number(localStorage.getItem("agingLevel"));
-  agingPrice = Number(localStorage.getItem("agingPrice"));
-  helpers = Number(localStorage.getItem("helpers"));
-  apprenticePrice = Number(localStorage.getItem("apprenticePrice"));
+const loadGameButton = document.getElementById("load-game-button");
+loadGameButton.addEventListener("click", function () {
+  cheeseCount = parseInt(localStorage.getItem("cheeseCount")) || 0;
+  pasteurizationLevel = parseInt(
+    localStorage.getItem("pasteurizationLevel")
+  ) || 0;
+  agingLevel = parseInt(localStorage.getItem("agingLevel")) || 0;
+  helpers = parseInt(localStorage.getItem("helpers")) || 0;
+  pasteurizationPrice = parseInt(
+    localStorage.getItem("pasteurizationPrice")
+  ) || pasteurizationBasePrice;
+  agingPrice = parseInt(localStorage.getItem("agingPrice")) || agingBasePrice;
+  apprenticePrice =
+    parseInt(localStorage.getItem("apprenticePrice")) || apprenticeBasePrice;
+  clickUpgradePrice =
+    parseInt(localStorage.getItem("clickUpgradePrice")) ||
+    clickUpgradeBasePrice;
+  cheesePerClick =
+    parseInt(localStorage.getItem("clickUpgradeLevel")) || cheesePerClickBase;
+  updateCheeseCount();
   updatePasteurization();
   updateAging();
-  updateHelpers();
+  updateApprentices();
+  updateClickUpgrade();
+});
+
+const resetGameButton = document.getElementById("reset-game-button");
+resetGameButton.addEventListener("click", function () {
+  cheeseCount = 0;
+  pasteurizationLevel = 0;
+  agingLevel = 0;
+  helpers = 0;
+  pasteurizationPrice = pasteurizationBasePrice;
+  agingPrice = agingBasePrice;
+  apprenticePrice = apprenticeBasePrice;
+  clickUpgradePrice = clickUpgradeBasePrice;
+  cheesePerClick = cheesePerClickBase;
   updateCheeseCount();
-  alert("Game loaded successfully!");
+  updatePasteurization();
+  updateAging();
+  updateApprentices();
+  updateClickUpgrade();
 });
 
-resetGameButton.addEventListener("click", () => {
-  if (confirm("Are you sure you want to reset the game? All progress will be lost.")) {
-    cheeseCount = 0;
-    pasteurizationLevel = 0;
-    pasteurizationPrice = pasteurizationBasePrice;
-    agingLevel = 0;
-    agingPrice = agingBasePrice;
-    helpers = 0;
-    apprenticePrice = apprenticeBasePrice;
-    updatePasteurization();
-    updateAging();
-    updateHelpers();
-    updateCheeseCount();
-  }
-});
-
-// Function to update the pasteurization level and price display
-function updatePasteurization() {
-  pasteurizationLevelElement.innerText = `${pasteurizationLevel}%`;
-  pasteurizationPriceElement.innerText = `${pasteurizationPrice} cheese`;
-}
-
-// Function to update the aging level and price display
-function updateAging() {
-  agingLevelElement.innerText = `${agingLevel} days`;
-  agingPriceElement.innerText = `${agingPrice} cheese`;
-}
-
-// Function to update the number of helpers and price display
-function updateHelpers() {
-  apprenticesElement.innerText = helpers;
-  apprenticePriceElement.innerText = `${apprenticePrice} cheese`;
-}
-
-// Function to update the cheese count display
-function updateCheeseCount() {
-  cheeseCountElement.innerText = Math.floor(cheeseCount);
-}
-
-// Function to update the cheese per second display
-function updateCheesePerSecond() {
-  cheesePerSecondElement.innerText = Math.floor(cheesePerSecond);
-}
-
-// Function to add cheese over time
-function addCheeseOverTime() {
+setInterval(function () {
   cheeseCount += cheesePerSecond / 10;
   updateCheeseCount();
-}
+}, 100);
 
-// Call addCheeseOverTime every 100 milliseconds
-setInterval(addCheeseOverTime, 100);
-
-// Function to calculate the total cheese per second based on upgrades and helpers
-function calculateCheesePerSecond() {
-  let totalCheesePerSecond = 0;
-
-  // Add base cheese per second
-  totalCheesePerSecond += 1;
-
-  // Add bonus cheese per second from pasteurization level
-  totalCheesePerSecond += pasteurizationLevel / 100;
-
-  // Add bonus cheese per second from aging level
-  // (assuming each day of aging adds 0.5 cheese per second)
-  totalCheesePerSecond += agingLevel * 0.5;
-
-  // Add bonus cheese per second from helpers
-  // (assuming each helper adds 2 cheese per second)
-  totalCheesePerSecond += helpers * 2;
-
-  cheesePerSecond = totalCheesePerSecond;
+setInterval(function () {
+  cheesePerSecond = pasteurizationLevel + agingLevel * 2 + helpers * 5;
   updateCheesePerSecond();
+}, 1000);
+
+function updateCheeseCount() {
+  document.getElementById("cheese-count").innerHTML = Math.floor(cheeseCount);
 }
 
-// Call calculateCheesePerSecond every 1000 milliseconds (1 second)
-setInterval(calculateCheesePerSecond, 1000);
+function updateCheesePerSecond() {
+  document.getElementById("cheese-per-second").innerHTML = cheesePerSecond;
+}
+
+function updatePasteurization() {
+  document.getElementById("pasteurization-level").innerHTML =
+    pasteurizationLevel + "%";
+  document.getElementById("pasteurization-price").innerHTML =
+    pasteurizationPrice + " cheese";
+}
+
+function updateAging() {
+  document.getElementById("aging-level").innerHTML = agingLevel + " days";
+  document.getElementById("aging-price").innerHTML = agingPrice + " cheese";
+}
+
+function updateApprentices() {
+  document.getElementById("apprentices-level").innerHTML = helpers;
+  document.getElementById("apprentice-price").innerHTML =
+    apprenticePrice + " cheese";
+}
+
+function updateClickUpgrade() {
+  document.getElementById("click-upgrade-level").innerHTML = cheesePerClick;
+  document.getElementById("click-upgrade-price").innerHTML =
+    clickUpgradePrice + " cheese";
+}
+
+updateCheeseCount();
+updateCheesePerSecond();
+updatePasteurization();
+updateAging();
+updateApprentices();
+updateClickUpgrade();
+
+const achievements = [
+  {
+    label: "First Cheese",
+    description: "Made your first cheese",
+    icon: "🧀",
+    trigger: function () {
+      return cheeseCount >= 1;
+    },
+  },
+  {
+    label: "Cheese Aficionado",
+    description: "Made 100 cheese",
+    icon: "🧀🧀🧀🧀🧀",
+    trigger: function () {
+      return cheeseCount >= 100;
+    },
+  },
+  {
+    label: "Master Cheese Maker",
+    description: "Made 1000 cheese",
+    icon: "🧀🧀🧀🧀🧀🧀🧀🧀🧀🧀",
+    trigger: function () {
+      return cheeseCount >= 1000;
+    },
+  },
+];
+
+const achievementList = document.getElementById("achievement-list");
+
+function checkAchievements() {
+  achievements.forEach(function (achievement) {
+    if (achievement.unlocked) return;
+    if (achievement.trigger()) {
+      achievement.unlocked = true;
+      const achievementElement = document.createElement("div");
+      achievementElement.classList.add("achievement");
+      const iconElement = document.createElement("div");
+      iconElement.classList.add("achievement-icon");
+      iconElement.innerHTML = achievement.icon;
+      const labelElement = document.createElement("div");
+      labelElement.classList.add("achievement-label");
+      labelElement.innerHTML = achievement.label;
+      const descriptionElement = document.createElement("div");
+      descriptionElement.classList.add("achievement-description");
+      descriptionElement.innerHTML = achievement.description;
+      achievementElement.appendChild(iconElement);
+      achievementElement.appendChild(labelElement);
+      achievementElement.appendChild(descriptionElement);
+      achievementList.appendChild(achievementElement);
+    }
+  });
+}
+
+setInterval(checkAchievements, 1000);

@@ -15,6 +15,7 @@
         <div id="upgrades">
           <div id="make-cheese">
             <button id="make-cheese-button">Make Cheese</button>
+            <p>Price: <span id="make-cheese-price">1 cheese</span></p>
           </div>
           <div id="pasteurization">
             <p>Pasteurization: <span id="pasteurization-level">0%</span></p>
@@ -27,9 +28,14 @@
             <button id="aging-button">Upgrade</button>
           </div>
           <div id="apprentices">
-            <p>Apprentices: <span id="apprentices">0</span></p>
+            <p>Apprentices: <span id="apprentices-level">0</span></p>
             <p>Price: <span id="apprentice-price">500 cheese</span></p>
             <button id="apprentice-button">Hire</button>
+          </div>
+          <div id="click-upgrade">
+            <p>Click Power: <span id="click-upgrade-level">1</span></p>
+            <p>Price: <span id="click-upgrade-price">1000 cheese</span></p>
+            <button id="click-upgrade-button">Upgrade</button>
           </div>
         </div>
         <div id="save-load-reset">
@@ -37,6 +43,10 @@
           <button id="load-game-button">Load Game</button>
           <button id="reset-game-button">Reset Game</button>
         </div>
+      </div>
+      <div id="achievements">
+        <h2>Achievements</h2>
+        <div id="achievement-list"></div>
       </div>
     </div>
     <script src="game.js"></script>
