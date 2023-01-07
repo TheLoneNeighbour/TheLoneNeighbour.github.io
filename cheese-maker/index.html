@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cheese Maker</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <h1>Cheese Maker</h1>
+      <div id="game">
+        <div id="counter">
+          <p>Cheese: <span id="cheese-count">0</span></p>
+          <p>Cheese per second: <span id="cheese-per-second">0</span></p>
+        </div>
+        <div id="upgrades">
+          <div id="make-cheese">
+            <button id="make-cheese-button">Make Cheese</button>
+          </div>
+          <div id="pasteurization">
+            <p>Pasteurization: <span id="pasteurization-level">0%</span></p>
+            <p>Price: <span id="pasteurization-price">100 cheese</span></p>
+            <button id="pasteurization-button">Upgrade</button>
+          </div>
+          <div id="aging">
+            <p>Aging: <span id="aging-level">0 days</span></p>
+            <p>Price: <span id="aging-price">200 cheese</span></p>
+            <button id="aging-button">Upgrade</button>
+          </div>
+          <div id="apprentices">
+            <p>Apprentices: <span id="apprentices">0</span></p>
+            <p>Price: <span id="apprentice-price">500 cheese</span></p>
+            <button id="apprentice-button">Hire</button>
+          </div>
+        </div>
+        <div id="save-load-reset">
+          <button id="save-game-button">Save Game</button>
+          <button id="load-game-button">Load Game</button>
+          <button id="reset-game-button">Reset Game</button>
+        </div>
+      </div>
+    </div>
+    <script src="game.js"></script>
+  </body>
+</html>
