@@ -145,25 +145,22 @@ function updateCheesePerSecond() {
 function updatePasteurization() {
   document.getElementById("pasteurization-level").innerHTML =
     pasteurizationLevel + "%";
-  document.getElementById("pasteurization-price").innerHTML =
-    pasteurizationPrice + " cheese";
+  document.getElementById("pasteurization-price").innerHTML = parseInt(pasteurizationPrice) + " cheese";
 }
 
 function updateAging() {
   document.getElementById("aging-level").innerHTML = agingLevel + " days";
-  document.getElementById("aging-price").innerHTML = agingPrice + " cheese";
+  document.getElementById("aging-price").innerHTML = parseInt(agingPrice) + " cheese";
 }
 
 function updateApprentices() {
   document.getElementById("apprentices-level").innerHTML = helpers;
-  document.getElementById("apprentice-price").innerHTML =
-    apprenticePrice + " cheese";
+  document.getElementById("apprentice-price").innerHTML = parseInt(apprenticePrice) + " cheese";
 }
 
 function updateClickUpgrade() {
   document.getElementById("click-upgrade-level").innerHTML = cheesePerClick;
-  document.getElementById("click-upgrade-price").innerHTML =
-    clickUpgradePrice + " cheese";
+  document.getElementById("click-upgrade-price").innerHTML = parseInt(clickUpgradePrice) + " cheese";
 }
 
 updateCheeseCount();
